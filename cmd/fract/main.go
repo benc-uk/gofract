@@ -3,6 +3,10 @@ package main
 import (
 	"fmt"
 	"image/color"
+	"image/png"
+	"os"
+	"time"
+
 	// "golang.org/x/mobile/event/key"
 
 	"fyne.io/fyne"
@@ -13,7 +17,7 @@ import (
 //var mainCanvas *canvas.Raster
 var mainWidget fractWidget
 var gradient gradientTable
-var bg = color.RGBA{0,0,0,255}
+var bg = color.RGBA{0, 0, 0, 255}
 
 var maxIter = 80
 var magFactor = 3.0
@@ -23,9 +27,9 @@ var imgWidth = 1000
 var imgHeight = 600
 
 type fractWidget struct {
-	canvas *canvas.Raster
+	canvas    *canvas.Raster
 	fractType string
-	win fyne.Window
+	win       fyne.Window
 }
 
 //
@@ -44,18 +48,17 @@ func main() {
 	//mainCanvas = canvas.NewRasterWithPixels(drawFractal)
 
 	mainWidget = fractWidget{
-		canvas: canvas.NewRasterWithPixels(drawFractal),
+		canvas:    canvas.NewRasterWithPixels(drawFractal),
 		fractType: "mandelbrot",
-		win: window,
+		win:       window,
 	}
 
 	window.SetContent(mainWidget.canvas)
 	window.Canvas().SetOnTypedKey(keyEvent)
 	window.Canvas().SetOnTypedRune(runeEvent)
-	fmt.Println("### WINDOW SIZE:", imgWidth, imgHeight)
 
-	window.Resize(fyne.Size{ imgWidth, imgHeight })
-	mainWidget.canvas.Resize(fyne.Size{ imgWidth, imgHeight })
+	window.Resize(fyne.Size{imgWidth, imgHeight})
+	mainWidget.canvas.Resize(fyne.Size{imgWidth, imgHeight})
 
 	window.ShowAndRun()
 }
@@ -67,7 +70,7 @@ func drawFractal(x, y, w, h int) color.Color {
 
 	rRatioAdjust := 1.0
 	iRatioAdjust := 1.0
-	if(w < h) {
+	if w < h {
 		rRatioAdjust = wf / hf
 	} else {
 		iRatioAdjust = hf / wf
@@ -89,20 +92,30 @@ func keyEvent(ev *fyne.KeyEvent) {
 	f := 0.1
 	if ev.Name == "Up" {
 		iOffset -= (magFactor * f)
-		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
 	}
 	if ev.Name == "Down" {
 		iOffset += (magFactor * f)
-		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
 	}
 	if ev.Name == "Left" {
 		rOffset -= (magFactor * f)
-		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
 	}
 	if ev.Name == "Right" {
 		rOffset += (magFactor * f)
-		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
 	}
+
+	if ev.Name == "S" {
+		fmt.Println("Saving image to PNG...")
+		f, _ := os.Create("fractal_" + time.Now().String() + ".png")
+		img := mainWidget.canvas.Generator(mainWidget.canvas.Size().Width, mainWidget.canvas.Size().Height)
+		png.Encode(f, img)
+		return
+	}
+
+	mainWidget.win.Canvas().Refresh(mainWidget.canvas)
 }
 
 func runeEvent(r int32) {
@@ -116,4 +129,3 @@ func runeEvent(r int32) {
 		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
 	}
 }
-
