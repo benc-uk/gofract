@@ -24,6 +24,6 @@ func mandlebrot(r, i float64) int {
 		return maxIter
 	}
 
-	// m := (float64(iter) - escapeOffset) / log2 
-	return int(iter)
+	m := (float64(iter) - escapeOffset) / log2 
+	return int(m)
 }

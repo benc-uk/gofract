@@ -1,16 +1,17 @@
 package main
 
 import (
-	//"fmt"
 	"fmt"
 	"image/color"
+	// "golang.org/x/mobile/event/key"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/canvas"
 )
 
-var mainCanvas *canvas.Raster
+//var mainCanvas *canvas.Raster
+var mainWidget fractWidget
 var gradient gradientTable
 var bg = color.RGBA{0,0,0,255}
 
@@ -18,21 +19,21 @@ var maxIter = 80
 var magFactor = 3.0
 var rOffset = -2.0
 var iOffset = -1.0
-var imgWidth = 2000
-var imgHeight = 1500
+var imgWidth = 1000
+var imgHeight = 600
 
+type fractWidget struct {
+	canvas *canvas.Raster
+	fractType string
+	win fyne.Window
+}
+
+//
 func main() {
 	gradient = gradientTable{
 		{parseHex("#090cb5"), 0.0},
-		// {parseHex("#d53e4f"), 0.1},
-		{parseHex("#7627ab"), 0.15},
-		// {parseHex("#fdae61"), 0.3},
-		// {parseHex("#fee090"), 0.4},
-		{parseHex("#f56320"), 0.4},
-		// {parseHex("#e6f598"), 0.6},
-		// {parseHex("#abdda4"), 0.7},
-		// {parseHex("#66c2a5"), 0.8},
-		// {parseHex("#3288bd"), 0.9},
+		{parseHex("#7627ab"), 0.1},
+		{parseHex("#f56320"), 0.3},
 		{parseHex("#ffff00"), 1.0},
 	}
 
@@ -40,18 +41,26 @@ func main() {
 	app := app.New()
 	window := app.NewWindow("GoFract")
 	window.SetPadded(false)
-	mainCanvas = canvas.NewRasterWithPixels(drawFractal)
-	window.SetContent(mainCanvas)
-	window.Canvas().SetOnTypedKey(keyPressed)
-	window.Show()
+	//mainCanvas = canvas.NewRasterWithPixels(drawFractal)
+
+	mainWidget = fractWidget{
+		canvas: canvas.NewRasterWithPixels(drawFractal),
+		fractType: "mandelbrot",
+		win: window,
+	}
+
+	window.SetContent(mainWidget.canvas)
+	window.Canvas().SetOnTypedKey(keyEvent)
+	window.Canvas().SetOnTypedRune(runeEvent)
 	fmt.Println("### WINDOW SIZE:", imgWidth, imgHeight)
 
 	window.Resize(fyne.Size{ imgWidth, imgHeight })
-	mainCanvas.Resize(fyne.Size{ imgWidth, imgHeight })
+	mainWidget.canvas.Resize(fyne.Size{ imgWidth, imgHeight })
 
 	window.ShowAndRun()
 }
 
+//
 func drawFractal(x, y, w, h int) color.Color {
 	wf := float64(w)
 	hf := float64(h)
@@ -76,6 +85,35 @@ func drawFractal(x, y, w, h int) color.Color {
 	return gradient.getInterpolatedColorFor(scaledIter)
 }
 
-func keyPressed(ev *fyne.KeyEvent) {
-	fmt.Println(ev.Name)
+func keyEvent(ev *fyne.KeyEvent) {
+	f := 0.1
+	if ev.Name == "Up" {
+		iOffset -= (magFactor * f)
+		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+	}
+	if ev.Name == "Down" {
+		iOffset += (magFactor * f)
+		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+	}
+	if ev.Name == "Left" {
+		rOffset -= (magFactor * f)
+		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+	}
+	if ev.Name == "Right" {
+		rOffset += (magFactor * f)
+		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+	}
 }
+
+func runeEvent(r int32) {
+	if r == 61 {
+		magFactor *= 0.9
+		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+	}
+
+	if r == 45 {
+		magFactor *= 1.1
+		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+	}
+}
+
