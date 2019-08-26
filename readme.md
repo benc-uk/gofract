@@ -12,9 +12,10 @@ Command Line:
 - `-width` Windows width in pixels (default 1000)
 - `-maxiter` Maximum fractal iteration per pixel (default 80)
 
-
 ## Screen shots
 ![](https://user-images.githubusercontent.com/14982936/63654094-b09db900-c76d-11e9-90a3-e4540944f17c.png)
+
+---
 
 # Building Yourself
 Tested with Go 1.12
@@ -38,11 +39,13 @@ cd cmd/fract
 go build
 ```
 
-# Windows
+## Windows
 - Have Go installed / on your path
 - Have Git installed / on your path
 - Install mingw-w64 http://win-builds.org/doku.php/download_and_installation_from_windows and put bin directory on your path
 - Build or run as with Linux above
+
+---
 
 # Appendix - X11 on WSL
 
