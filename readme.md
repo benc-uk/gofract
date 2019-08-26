@@ -6,17 +6,11 @@ Fractals done in Go. Uses Enbiten game dev libary
 
 # Building Yourself
 
-## Linux WSL
+## Linux 
+
+Libs
 ```
 sudo apt install libgl1-mesa-dev xorg-dev
-sudo apt install xfce4 xfce4-terminal
-```
-
-Download and install [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
-
-export display
-```
-export DISPLAY=192.168.0.24:0
 ```
 
 Run
@@ -36,3 +30,15 @@ go run .
 - Install mingw-w64 http://win-builds.org/doku.php/download_and_installation_from_windows and put bin directory on your path
 
 
+# Appendix
+
+```
+sudo apt install xfce4 xfce4-terminal
+```
+
+Download and install [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
+
+export display
+```
+export DISPLAY=192.168.0.24:0
+```
