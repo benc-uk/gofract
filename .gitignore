@@ -13,3 +13,6 @@
 
 # Images
 **.png
+**.exe
+fract/fract
+!bin/**

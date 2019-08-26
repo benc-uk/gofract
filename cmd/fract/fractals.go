@@ -4,9 +4,11 @@ import (
 	"math"
 )
 
-var escape = 4.0
-var log2 = math.Log(2)
-var escapeOffset = math.Log(math.Log(escape))
+var (
+	escape       = 4.0
+	log2         = math.Log(2)
+	escapeOffset = math.Log(math.Log(escape))
+)
 
 func mandlebrot(r, i float64) int {
 	var x = 0.0
@@ -24,6 +26,6 @@ func mandlebrot(r, i float64) int {
 		return maxIter
 	}
 
-	m := (float64(iter) - escapeOffset) / log2 
+	m := (float64(iter) - escapeOffset) / log2
 	return int(m)
 }
