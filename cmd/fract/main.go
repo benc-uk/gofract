@@ -20,11 +20,11 @@ var (
 	centerX    = -0.6
 	centerY    = 0.0
 	maxIter    = 80
-	h          = 1.2558139534
+	h          = 2.0
 	w          = 3.0
 	ratioHW    = h / w
 	ratioWH    = w / h
-	imgWidth   = 3440
+	imgWidth   = 1000
 	imgHeight  = int(float64(imgWidth) * ratioHW)
 	imgWidthF  = float64(imgWidth)
 	imgHeightF = float64(imgHeight)

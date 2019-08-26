@@ -1,13 +1,12 @@
 # GoFract
-Fractals done in Go
+Fractals done in Go. Uses Enbiten game dev libary
 
-Uses Fyne library for cross plat UI, only tested with Linux / X11 under Windows WSL2
-
+## Screen shots
 ![](https://user-images.githubusercontent.com/14982936/63654094-b09db900-c76d-11e9-90a3-e4540944f17c.png)
 
-# Building
+# Building Yourself
 
-## Linux / WSL
+## Linux WSL
 ```
 sudo apt install libgl1-mesa-dev xorg-dev
 sudo apt install xfce4 xfce4-terminal
@@ -18,9 +17,19 @@ Download and install [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
 export display
 ```
 export DISPLAY=192.168.0.24:0
-startxfce4
 ```
 
+Run
+```
+cd cmd/fract
+go run .
+```
+
+Build 
+```
+cd cmd/fract
+go run .
+```
 
 # Windows
 - Have git installed / on your path
