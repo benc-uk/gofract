@@ -2,38 +2,96 @@ package main
 
 import (
 	"fmt"
-	"image/color"
+	"image"
 	"image/png"
 	"os"
 	"time"
 
-	// "golang.org/x/mobile/event/key"
-
-	"fyne.io/fyne"
-	"fyne.io/fyne/app"
-	"fyne.io/fyne/canvas"
+	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/ebitenutil"
+	"github.com/hajimehoshi/ebiten/inpututil"
+	// "github.com/hajimehoshi/ebiten/inpututil"
 )
 
-//var mainCanvas *canvas.Raster
-var mainWidget fractWidget
-var gradient gradientTable
-var bg = color.RGBA{0, 0, 0, 255}
+var (
+	mainImage  *image.RGBA
+	gradient   gradientTable
+	magFactor  = 1.0
+	centerX    = -0.6
+	centerY    = 0.0
+	maxIter    = 80
+	h          = 1.2558139534
+	w          = 3.0
+	ratioHW    = h / w
+	ratioWH    = w / h
+	imgWidth   = 3440
+	imgHeight  = int(float64(imgWidth) * ratioHW)
+	imgWidthF  = float64(imgWidth)
+	imgHeightF = float64(imgHeight)
+)
 
-var maxIter = 80
-var magFactor = 3.0
-var rOffset = -2.0
-var iOffset = -1.0
-var imgWidth = 1000
-var imgHeight = 600
+func renderFractal() {
+	for y := 0; y < imgHeight; y++ {
+		for x := 0; x < imgWidth; x++ {
+			rOffset := centerX - ratioWH*magFactor
+			iOffset := centerY - (h/2.0)*magFactor
+			r := rOffset + ((float64(x)/imgWidthF)*w)*magFactor
+			i := iOffset + ((float64(y)/imgHeightF)*h)*magFactor
+			iter := mandlebrot(float64(r), float64(i))
 
-type fractWidget struct {
-	canvas    *canvas.Raster
-	fractType string
-	win       fyne.Window
+			rc := uint8(0)
+			gc := uint8(0)
+			bc := uint8(0)
+			if iter != maxIter {
+				scaledIter := float64(iter) / float64(maxIter)
+				rc, gc, bc = gradient.getInterpolatedColorFor(scaledIter).RGB255()
+			}
+
+			p := 4 * (x + y*imgWidth)
+			mainImage.Pix[p] = rc
+			mainImage.Pix[p+1] = gc
+			mainImage.Pix[p+2] = bc
+			mainImage.Pix[p+3] = 0xff
+		}
+	}
 }
 
-//
-func main() {
+func update(screen *ebiten.Image) error {
+	_, dy := ebiten.Wheel()
+	if dy > 0 {
+		magFactor *= 0.8
+		renderFractal()
+	}
+	if dy < 0 {
+		magFactor *= 1.2
+		renderFractal()
+	}
+
+	if inpututil.IsMouseButtonJustPressed(ebiten.MouseButtonLeft) {
+		x, y := ebiten.CursorPosition()
+		fx := ((float64(x) / imgWidthF) * w) - ratioWH
+		fy := ((float64(y) / imgHeightF) * h) - (h / 2.0)
+		centerX += (fx * magFactor)
+		centerY += (fy * magFactor)
+		renderFractal()
+	}
+
+	if inpututil.IsKeyJustPressed(ebiten.KeyS) {
+		fmt.Println("Saving image to PNG...")
+		f, _ := os.Create("fractal_" + time.Now().String() + ".png")
+		png.Encode(f, mainImage)
+	}
+
+	if ebiten.IsDrawingSkipped() {
+		return nil
+	}
+
+	screen.ReplacePixels(mainImage.Pix)
+	ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f", ebiten.CurrentTPS()))
+	return nil
+}
+
+func init() {
 	gradient = gradientTable{
 		{parseHex("#090cb5"), 0.0},
 		{parseHex("#7627ab"), 0.1},
@@ -41,91 +99,13 @@ func main() {
 		{parseHex("#ffff00"), 1.0},
 	}
 
-	fmt.Println("### Starting GoFract...")
-	app := app.New()
-	window := app.NewWindow("GoFract")
-	window.SetPadded(false)
-	//mainCanvas = canvas.NewRasterWithPixels(drawFractal)
-
-	mainWidget = fractWidget{
-		canvas:    canvas.NewRasterWithPixels(drawFractal),
-		fractType: "mandelbrot",
-		win:       window,
-	}
-
-	window.SetContent(mainWidget.canvas)
-	window.Canvas().SetOnTypedKey(keyEvent)
-	window.Canvas().SetOnTypedRune(runeEvent)
-
-	window.Resize(fyne.Size{imgWidth, imgHeight})
-	mainWidget.canvas.Resize(fyne.Size{imgWidth, imgHeight})
-
-	window.ShowAndRun()
+	mainImage = image.NewRGBA(image.Rect(0, 0, imgWidth, imgHeight))
+	renderFractal()
 }
 
-//
-func drawFractal(x, y, w, h int) color.Color {
-	wf := float64(w)
-	hf := float64(h)
-
-	rRatioAdjust := 1.0
-	iRatioAdjust := 1.0
-	if w < h {
-		rRatioAdjust = wf / hf
-	} else {
-		iRatioAdjust = hf / wf
-	}
-
-	r := rOffset + ((float64(x) / wf) * magFactor * rRatioAdjust)
-	i := iOffset + ((float64(y) / hf) * magFactor * iRatioAdjust)
-	iter := mandlebrot(float64(r), float64(i))
-
-	if iter == maxIter {
-		return bg
-	}
-
-	scaledIter := float64(iter) / float64(maxIter)
-	return gradient.getInterpolatedColorFor(scaledIter)
-}
-
-func keyEvent(ev *fyne.KeyEvent) {
-	f := 0.1
-	if ev.Name == "Up" {
-		iOffset -= (magFactor * f)
-		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
-	}
-	if ev.Name == "Down" {
-		iOffset += (magFactor * f)
-		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
-	}
-	if ev.Name == "Left" {
-		rOffset -= (magFactor * f)
-		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
-	}
-	if ev.Name == "Right" {
-		rOffset += (magFactor * f)
-		// mainWidget.win.Canvas().Refresh(mainWidget.canvas)
-	}
-
-	if ev.Name == "S" {
-		fmt.Println("Saving image to PNG...")
-		f, _ := os.Create("fractal_" + time.Now().String() + ".png")
-		img := mainWidget.canvas.Generator(mainWidget.canvas.Size().Width, mainWidget.canvas.Size().Height)
-		png.Encode(f, img)
-		return
-	}
-
-	mainWidget.win.Canvas().Refresh(mainWidget.canvas)
-}
-
-func runeEvent(r int32) {
-	if r == 61 {
-		magFactor *= 0.9
-		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
-	}
-
-	if r == 45 {
-		magFactor *= 1.1
-		mainWidget.win.Canvas().Refresh(mainWidget.canvas)
+func main() {
+	fmt.Println("### Starting... ", imgWidth, imgHeight)
+	if err := ebiten.Run(update, imgWidth, imgHeight, 1, "GoFract"); err != nil {
+		fmt.Println(err)
 	}
 }
