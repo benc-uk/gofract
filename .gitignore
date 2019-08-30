@@ -14,5 +14,5 @@
 # Things we don't want
 **.png
 **.exe
-fract/fract
+cmd/fract/fract
 !bin/**

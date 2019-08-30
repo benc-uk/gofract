@@ -2,30 +2,44 @@ package main
 
 import (
 	"math"
+	"math/cmplx"
 )
 
 var (
-	escape       = 4.0
-	log2         = math.Log(2)
-	escapeOffset = math.Log(math.Log(escape))
+	escape = 2.0
+	log2   = math.Log(escape)
 )
 
-func mandlebrot(r, i float64) int {
-	var x = 0.0
-	var y = 0.0
-
+func mandlebrot(a complex128, f Fractal) int {
+	var z complex128 // zero
 	var iter = 0
 
-	for x*x+y*y <= escape && iter < maxIter {
-		xtemp := x*x - y*y + r
-		y = 2*x*y + i
-		x = xtemp
-		iter = iter + 1
-	}
-	if iter == maxIter {
-		return maxIter
+	for cmplx.Abs(z) < escape && iter <= f.maxIter {
+		z = z * z + a
+		iter++
 	}
 
-	m := (float64(iter) - escapeOffset) / log2
-	return int(m)
+	if iter >= f.maxIter {
+		return f.maxIter
+	}
+
+	mu := float64(iter) + 2.0 - math.Log(math.Log(cmplx.Abs(z)))/log2
+	return int(mu)
+}
+
+func julia(a complex128, f Fractal) int {
+	z := a
+	var iter = 0
+
+	for cmplx.Abs(z) < escape && iter <= f.maxIter {
+		z = z * z + f.c
+		iter++
+	}
+
+	if iter >= f.maxIter {
+		return f.maxIter
+	}
+
+	mu := float64(iter) + 2.0 - math.Log(math.Log(cmplx.Abs(z)))/log2
+	return int(mu)
 }
