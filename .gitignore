@@ -13,6 +13,7 @@
 
 # Things we don't want
 **.png
+!img/*.png
 **.exe
 cmd/fract/fract
 !bin/**
