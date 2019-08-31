@@ -24,7 +24,7 @@ Command line options:
 - `-colors` Specify a gradient colour palette, in the form of a comma separated list of pairs `hexcolor1=pos1,hexcolor2=pos2`. Where `hexcolor` is a colour in HEX form, e.g ff34bb (without hash), and `pos` is a position, between 0.0 and 1.0
 
 ## Screen shots
-### [Gallery Here](https://code.benco.io/gofract/img/)
+#### [Gallery Here](https://code.benco.io/gofract/img/)
 
 ---
 

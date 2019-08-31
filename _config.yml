@@ -4,10 +4,7 @@ remote_theme: benc-uk/theme-msdark
 plugins:
   - jemoji
 buttons:
-  - b0:
-    text: Main
-    href: /
   - b1:
     text: Gallery
-    href: "/img"
+    href: "https://code.benco.io/gofract/img/"
 
