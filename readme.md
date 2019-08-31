@@ -21,21 +21,22 @@ Configuration is done via YAML, this is loaded from `fractal.yaml` by default, o
 Below is an example config file, not every setting needs to be provided and if the file is not provided defaults are used.
 
 ```yaml
-type: julia         # Either 'mandelbrot' or 'julia', default = mandelbrot
-maxIter: 200        # Max iterations, default = 80
-imageWidth: 800     # Width of the windows and image, default = 10
-fullScreen: false   # Run fullscreen, default = 1000
+type: julia         # Either 'mandelbrot' or 'julia', default: mandelbrot
+maxIter: 200        # Max iterations, default: 80
+imageWidth: 800     # Width of the windows and image, default: 1000
+fullScreen: false   # Run fullscreen, default: false
 
-width: 3.0          # Width in the complex plane (real part), default = 3.0
-height: 2.0         # Height in the complex plane (imaginary part), default = 2.0
-                    # The ratio of width:height combined with imageWidth defines imageHeight
-zoom: 1.5           # Starting zoom factor, default = 3.0
+width: 3.0          # Width in the complex plane (real part), default: 3.0
+height: 2.0         # Height in the complex plane (imaginary part), default: 2.0
+                    # NOTE. The ratio of width:height combined with imageWidth defines the imageHeight
+                    #       imageHeight = imageWidth * (height / width)
+zoom: 1.5           # Starting zoom factor, default: 1.0
 
-center:             # Starting location in complex plane, default = [0.0,-0.6]
+center:             # Starting location in complex plane, default: [0.0,-0.6]
   r: 0.0
   i: -0.6
 
-juliaC:             # Used when type=julia, complex C value used, default = [0.355, 0.355]
+juliaC:             # Used when type=julia, complex C value used, default: [0.355, 0.355]
   r: -0.54
   i: 0.54
 
