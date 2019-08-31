@@ -7,4 +7,6 @@ buttons:
   - b1:
     text: Gallery
     href: "https://code.benco.io/gofract/img/"
-
+  - b2:
+    text: Web Version
+    href: "https://code.benco.io/gofract/web/"
