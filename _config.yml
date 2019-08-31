@@ -1,0 +1,13 @@
+title: "GoFract - Go based fractal generator"
+remote_theme: benc-uk/theme-msdark
+#favicon: /vue/public/favicon.png
+plugins:
+  - jemoji
+buttons:
+  - b0:
+    text: Main
+    href: /
+  - b1:
+    text: Gallery
+    href: "/img"
+

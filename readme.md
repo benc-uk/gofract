@@ -8,14 +8,14 @@ It should build/run under both Linux/WSL and Windows
 Features:
 - Mandlebrot and Julia sets
 - Zoom in/out with mouse wheel
-- Click to recenter
+- Click anywhere to recenter the view
 - Press 's' to save current view to a PNG file
 - Press 'd' to display debugging information
-- Press 'r' to randomise the pallet
+- Press 'r' to randomise the colour pallet
 - Press 'b' to change the colour blend mode (RGB, HCL, HSV)
-- Use cursor keys to explore when in Julia set mode, by changing the real/imag parts of C
+- Use cursor keys to explore when in Julia set mode, by changing the real/imaginary parts of C
 
-Command Line:
+Command line options:
 - `-width` Windows width in pixels (default 1000)
 - `-maxiter` Maximum fractal iteration per pixel (default 80)
 - `-type` Fractal type "mandelbrot" or "julia" (default mandelbrot)
@@ -24,7 +24,7 @@ Command Line:
 - `-colors` Specify a gradient colour palette, in the form of a comma separated list of pairs `hexcolor1=pos1,hexcolor2=pos2`. Where `hexcolor` is a colour in HEX form, e.g ff34bb (without hash), and `pos` is a position, between 0.0 and 1.0
 
 ## Screen shots
-#### [Gallery Here](https://code.benco.io/gofract/img/)
+### [Gallery Here](https://code.benco.io/gofract/img/)
 
 ---
 
