@@ -1,18 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Gallery</title>
-</head>
-<body>
-<h1>Sample Images Gallery</h1>
-<img src="./spiral.png" />
-<img src="./classic.png" />
-<img src="./fern.png" />
-<img src="./julia-xwide.png" />
-<img src="./lightning.png" />
-<img src="./julia.png" />
-</body>
-</html>
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta property="og:title" content="GoFract Samples"><title>GoFract Samples</title><meta name="description" content="Single page gallery created using Von generator."><meta property="og:description" content="Single page gallery created using Von generator."><style type="text/css">body {
+    font-family: Tahoma, sans-serif;
+    background-color: #111;
+    max-width: 960px;
+    margin: 0 auto;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.group {
+    position: relative;
+    margin: 200px 0;
+}
+
+.group .images {
+    padding: 5px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-wrapper {
+    flex: 1.3;
+}
+
+.image-link {
+    position: relative;
+    display: block;
+    margin: 5px;
+}
+
+.group .image {
+    position: absolute;
+}
+
+.group .placeholder {
+    background-color: #222;
+}
+
+.group .source {
+    text-align: center;
+    padding-top: 20px;
+    color: #666;
+}
+
+.group .source a {
+    color: #777 !important;
+}
+</style></head><body><div class="group"><div class="images"><div class="row"><div class="image-wrapper" data-src="./classic.png" style="flex:1.5009380863039399;max-width:1600px;"><a class="image-link" href="#null"><img class="image" data-src="./classic.png"><noscript><img class="image" src="./classic.png"></noscript><div class="placeholder" style="padding-bottom: 66.625%;"></div></a></div><div class="image-wrapper" data-src="./fern.png" style="flex:1.5003750937734435;max-width:2000px;"><a class="image-link" href="#null"><img class="image" data-src="./fern.png"><noscript><img class="image" src="./fern.png"></noscript><div class="placeholder" style="padding-bottom: 66.64999999999999%;"></div></a></div><div class="image-wrapper" data-src="./julia.png" style="flex:1.5009380863039399;max-width:800px;"><a class="image-link" href="#null"><img class="image" data-src="./julia.png"><noscript><img class="image" src="./julia.png"></noscript><div class="placeholder" style="padding-bottom: 66.625%;"></div></a></div><div class="image-wrapper" data-src="./lightning.png" style="flex:1.5003750937734435;max-width:2000px;"><a class="image-link" href="#null"><img class="image" data-src="./lightning.png"><noscript><img class="image" src="./lightning.png"></noscript><div class="placeholder" style="padding-bottom: 66.64999999999999%;"></div></a></div><div class="image-wrapper" data-src="./spiral.png" style="flex:1.5009380863039399;max-width:1600px;"><a class="image-link" href="#null"><img class="image" data-src="./spiral.png"><noscript><img class="image" src="./spiral.png"></noscript><div class="placeholder" style="padding-bottom: 66.625%;"></div></a></div></div></div></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery@1.6.4/dist/css/lightgallery.min.css"><script src="https://code.jquery.com/jquery-3.2.1.min.js"></script><script src="https://cdn.jsdelivr.net/combine/npm/lightgallery,npm/lg-autoplay,npm/lg-fullscreen,npm/lg-hash,npm/lg-pager,npm/lg-share,npm/lg-thumbnail,npm/lg-video,npm/lg-zoom"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.7/jquery.lazy.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.7/jquery.lazy.plugins.min.js"></script><script type="text/javascript">$(document).ready(function () {
+    var images = $('.images');
+    images.lightGallery({
+        selector: '.image-wrapper'
+    });
+    $('.image').Lazy({
+        threshold: (window.screen.height || 2000) * 2,
+        effect: 'fadeIn',
+        effectTime: 1000
+    });
+});</script></body></html>

@@ -23,8 +23,8 @@ func parseHex(s string) colorful.Color {
 	return c
 }
 
-func (gt *gradientTable) addToTable(s string, p float64) {
-	gt.table = append(gt.table, gradientTableEntry{parseHex("#"+s), p})
+func (gt *gradientTable) addToTable(colorString string, pos float64) {
+	gt.table = append(gt.table, gradientTableEntry{parseHex(colorString), pos})
 }
 
 func (gt *gradientTable) randomise() {
