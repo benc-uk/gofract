@@ -1,11 +1,13 @@
 type: julia
 maxIter: 200
 imageWidth: 800
-fullScreen: true
+fullScreen: false
 
 # center:
 #   r: 0.0
 #   i: 0.5
+# width: 4.0
+# height: 3.0
 
 juliaC:
   r: -0.54

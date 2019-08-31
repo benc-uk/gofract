@@ -24,7 +24,6 @@ var (
 
 	// Global fractal super object
 	f     Fractal
-	dirty = false
 )
 
 type ComplexPair struct {
@@ -89,10 +88,12 @@ func renderFractal(fast bool) {
 
 				var iter int
 				switch f.FractType {
-				case "mandelbrot":
-					iter = mandlebrot(complex(r, i), f)
-				case "julia":
-					iter = julia(complex(r, i), f, c)
+					case "mandelbrot":
+						iter = mandlebrot(complex(r, i), f)
+					case "julia":
+						iter = julia(complex(r, i), f, c)
+					default:
+						iter = mandlebrot(complex(r, i), f)
 				}
 
 				// Default to inner colour if inside the set
@@ -121,12 +122,12 @@ func renderFractal(fast bool) {
 
 func update(screen *ebiten.Image) error {
 	// Zoom in/out with mousewheel
-	_, dy := ebiten.Wheel()
-	if dy > 0 {
+	_, mouseDy := ebiten.Wheel()
+	if mouseDy > 0 {
 		f.MagFactor *= 0.8
 		renderFractal(true)
 	}
-	if dy < 0 {
+	if mouseDy < 0 {
 		f.MagFactor *= 1.2
 		renderFractal(true)
 	}
@@ -167,6 +168,7 @@ func update(screen *ebiten.Image) error {
 		renderFractal(true)
 	}
 
+	// 'ESC' or 'Q' key -> quit
 	if inpututil.IsKeyJustPressed(ebiten.KeyEscape) || inpututil.IsKeyJustPressed(ebiten.KeyQ) {
 		os.Exit(0)
 	}
@@ -198,7 +200,7 @@ func update(screen *ebiten.Image) error {
 	if debug {
 		ebitenutil.DebugPrint(screen, fmt.Sprintf("TPS: %0.2f\n", ebiten.CurrentTPS()))
 		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("magFactor: %0.4f maxIter: %d", f.MagFactor, f.MaxIter), 2, 16)
-		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("location: %0.4f, %0.4f", f.Center.R, f.Center.I), 2, 33)
+		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("center: %0.4f, %0.4f", f.Center.R, f.Center.I), 2, 33)
 		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("juliaC: %0.4f, %0.4f", f.JuliaC.R, f.JuliaC.I), 2, 49)
 		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("renderTime: %vms", renderTime), 2, 65)
 		ebitenutil.DebugPrintAt(screen, fmt.Sprintf("blendMode: %v", gradient.mode), 2, 81)
@@ -214,26 +216,38 @@ func main() {
 	fmt.Println("### Starting GoFract...")
 
 	f = Fractal{
-		FractType:  "julia",
-		Center:     ComplexPair{0.0, 0.0},
+		FractType:  "mandelbrot",
+		Center:     ComplexPair{-0.6, 0.0},
 		MagFactor:  1.0,
-		MaxIter:    500,
+		MaxIter:    80,
 		W:          3.0,
 		H:          2.0,
 		ImgWidth:   1000,
 		JuliaC:     ComplexPair{0.355, 0.355},
-		InnerColor: "#ffff00",
+		InnerColor: "#000000",
 		FullScreen: false,
 	}
 
-	f.loadFractal("fractal.yaml")
+	// Handle loading YAML config file
+	configFile := "fractal.yaml"
+	if len(os.Args) > 1 {
+		configFile = os.Args[1]
+		fmt.Println("### Trying to load:", configFile)
+	}
+	_, err := os.Stat(configFile)
+	if err == nil {
+		fmt.Println("### Loading config file:", configFile)
+		f.loadFractal(configFile)
+	} else {
+		fmt.Println("### No config file, starting with defaults")
+	}
 
 	f.ratioHW = f.H / f.W
 	f.ratioWH = f.W / f.H
 	f.imgHeight = int(float64(f.ImgWidth) * f.ratioHW)
 
- 	y, _ := yaml.Marshal(f)
-	fmt.Printf("\n%v\n", string(y))
+ 	fractalYamlDump, _ := yaml.Marshal(f)
+	fmt.Printf("\n%v\n", string(fractalYamlDump))
 
 	// Color gradient table
 	if len(f.Colors) < 2 {
@@ -253,18 +267,23 @@ func main() {
 	mainImage = image.NewRGBA(image.Rect(0, 0, f.ImgWidth, f.imgHeight))
 	renderFractal(false)
 
+	// Set icon (held in icon.go)
 	icon, err := png.Decode(getIcon())
 	if err == nil {
 		ebiten.SetWindowIcon([]image.Image{icon})
 	}
 	ebiten.SetFullscreen(f.FullScreen)
 
+	// It starts here
 	fmt.Printf("### Window size: [%v,%v]\n", f.ImgWidth, f.imgHeight)
-	if err := ebiten.Run(update, f.ImgWidth, f.imgHeight, 1, "GoFract v0.0.2"); err != nil {
+	if err := ebiten.Run(update, f.ImgWidth, f.imgHeight, 1, "GoFract v0.0.3"); err != nil {
 		fmt.Println(err)
 	}
 }
 
+//
+// YAML parser
+//
 func (f *Fractal) loadFractal(filename string) *Fractal {
 	yamlFile, err := ioutil.ReadFile(filename)
 	if err != nil {

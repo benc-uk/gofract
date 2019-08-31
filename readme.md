@@ -15,13 +15,44 @@ Features:
 - Press 'b' to change the colour blend mode (RGB, HCL, HSV)
 - Use cursor keys to explore when in Julia set mode, by changing the real/imaginary parts of C
 
-Command line options:
-- `-width` Windows width in pixels (default 1000)
-- `-maxiter` Maximum fractal iteration per pixel (default 80)
-- `-type` Fractal type "mandelbrot" or "julia" (default mandelbrot)
-- `-cr` When in Julia mode, set the real part of C (default 0.355)
-- `-ci` When in Julia mode, set the imaginary part of C (default 0.355)
-- `-colors` Specify a gradient colour palette, in the form of a comma separated list of pairs `hexcolor1=pos1,hexcolor2=pos2`. Where `hexcolor` is a colour in HEX form, e.g ff34bb (without hash), and `pos` is a position, between 0.0 and 1.0
+## Configuration
+Configuration is done via YAML, this is loaded from `fractal.yaml` by default, or the filename can be passed as an argument when starting the app.
+
+Below is an example config file, not every setting needs to be provided and if the file is not provided defaults are used.
+
+```yaml
+type: julia         # Either 'mandelbrot' or 'julia', default = mandelbrot
+maxIter: 200        # Max iterations, default = 80
+imageWidth: 800     # Width of the windows and image, default = 10
+fullScreen: false   # Run fullscreen, default = 1000
+
+width: 3.0          # Width in the complex plane (real part), default = 3.0
+height: 2.0         # Height in the complex plane (imaginary part), default = 2.0
+                    # The ratio of width:height combined with imageWidth defines imageHeight
+zoom: 1.5           # Starting zoom factor, default = 3.0
+
+center:             # Starting location in complex plane, default = [0.0,-0.6]
+  r: 0.0
+  i: -0.6
+
+juliaC:             # Used when type=julia, complex C value used, default = [0.355, 0.355]
+  r: -0.54
+  i: 0.54
+
+# Array of colors (in hex format), and positions, pos: 0.0 ~ 1.0 
+# Minimum of two colors, colors are blended to make a smooth gradient between 0.0 and 1.0
+colors:              
+  - pos: 0.0
+    color: "#130b5c"
+  - pos: 0.2
+    color: "#3ec71c"
+  - pos: 0.7
+    color: "#db4918"         
+  - pos: 1.0
+    color: "#cf0c84"      
+
+innerColor: "#570336"   # Color used to draw inside the fractal set, default = #000000
+```
 
 ## Screen shots
 #### [Gallery Here](https://code.benco.io/gofract/img/)
