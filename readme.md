@@ -13,7 +13,8 @@ Command Line:
 - `-maxiter` Maximum fractal iteration per pixel (default 80)
 
 ## Screen shots
-![](https://user-images.githubusercontent.com/14982936/63654094-b09db900-c76d-11e9-90a3-e4540944f17c.png)
+![](https://raw.githubusercontent.com/benc-uk/gofract/master/img/manelbrot-1.png)
+![](https://raw.githubusercontent.com/benc-uk/gofract/master/img/julia2.png)
 
 ---
 
