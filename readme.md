@@ -11,7 +11,7 @@ Features:
 - Click anywhere to recenter the view
 - Press 's' to save current view to a PNG file
 - Press 'd' to display debugging information
-- Press 'r' to randomise the colour pallet
+- Press 'r' to randomize the colour pallet
 - Press 'b' to change the colour blend mode (RGB, HCL, HSV)
 - Use cursor keys to explore when in Julia set mode, by changing the real/imaginary parts of C
 
