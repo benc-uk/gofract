@@ -1,20 +1,30 @@
 # GoFract
-Fractals rendered in Go. Uses the [Enbiten](https://ebiten.org/) "A dead simple 2D game library"
+Mandlebrot and Julia fractals rendered in real-time using Go. 
 
-It should run under Linux/WSL and Windows
+Uses the [Enbiten](https://ebiten.org/) "A dead simple 2D game library" and also [go-colorful](https://github.com/lucasb-eyer/go-colorful) a library for manipulating colours in Go.
+
+It should build/run under both Linux/WSL and Windows
 
 Features:
+- Mandlebrot and Julia sets
 - Zoom in/out with mouse wheel
 - Click to recenter
 - Press 's' to save current view to a PNG file
+- Press 'd' to display debugging information
+- Press 'r' to randomise the pallet
+- Press 'b' to change the colour blend mode (RGB, HCL, HSV)
+- Use cursor keys to explore when in Julia set mode, by changing the real/imag parts of C
 
 Command Line:
 - `-width` Windows width in pixels (default 1000)
 - `-maxiter` Maximum fractal iteration per pixel (default 80)
+- `-type` Fractal type "mandelbrot" or "julia" (default mandelbrot)
+- `-cr` When in Julia mode, set the real part of C (default 0.355)
+- `-ci` When in Julia mode, set the imaginary part of C (default 0.355)
+- `-colors` Specify a gradient colour palette, in the form of a comma separated list of pairs `hexcolor1=pos1,hexcolor2=pos2`. Where `hexcolor` is a colour in HEX form, e.g ff34bb (without hash), and `pos` is a position, between 0.0 and 1.0
 
 ## Screen shots
-![](https://raw.githubusercontent.com/benc-uk/gofract/master/img/manelbrot-1.png)
-![](https://raw.githubusercontent.com/benc-uk/gofract/master/img/julia2.png)
+#### [Gallery Here](https://code.benco.io/gofract/img/)
 
 ---
 
