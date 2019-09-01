@@ -3,9 +3,9 @@ maxIter: 200
 imageWidth: 800
 fullScreen: false
 
-# center:
-#   r: 0.0
-#   i: 0.5
+center:
+  r: 0.0
+  i: 0.0
 # width: 4.0
 # height: 3.0
 
@@ -14,13 +14,13 @@ juliaC:
   i: 0.54
 
 colors:
-  - pos: 0.0
-    color: "#130b5c"
-  - pos: 0.2
-    color: "#3ec71c"
-  - pos: 0.7
-    color: "#db4918"         
-  - pos: 1.0
-    color: "#cf0c84"      
+  - color: "#130b5c"
+    pos: 0.0
+  - color: "#3ec71c"
+    pos: 0.2
+  - color: "#db4918"
+    pos: 0.7
+  - color: "#cf0c84"
+    pos: 1.0
 
-innerColor: "#570336"
+innerColor: "#f0cc05"

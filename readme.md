@@ -1,14 +1,16 @@
 # GoFract
-Mandlebrot and Julia fractals rendered in real-time using Go. 
+This project is an experiment in using Go to render Mandlebrot and Julia fractals in real-time 
 
-Uses the [Enbiten](https://ebiten.org/) "A dead simple 2D game library" and also [go-colorful](https://github.com/lucasb-eyer/go-colorful) a library for manipulating colours in Go.
+The project uses the [Enbiten](https://ebiten.org/) 2D game library and also [go-colorful](https://github.com/lucasb-eyer/go-colorful) a library for manipulating colours in Go.
 
-It should build/run under both Linux/WSL and Windows
+It should build/run under both Linux/WSL and Windows, notes are provided below.
 
 Features:
 - Mandlebrot and Julia sets
 - Zoom in/out with mouse wheel
 - Click anywhere to recenter the view
+- Press 'h' to show help text
+- Press 'z'/'x' to decrease/increase max iterations
 - Press 's' to save current view to a PNG file
 - Press 'd' to display debugging information
 - Press 'r' to randomize the colour pallet
@@ -16,9 +18,12 @@ Features:
 - Use cursor keys to explore when in Julia set mode, by changing the real/imaginary parts of C
 
 ## Configuration
-Configuration is done via YAML, this is loaded from `fractal.yaml` by default, or the filename can be passed as an argument when starting the app.
+Configuration is done via YAML, this is loaded from `fractal.yaml` by default, or the filename can be passed as an argument when starting the app, e.g. `fract foo.yaml` or `go run . foo.yaml`
 
-Below is an example config file, not every setting needs to be provided and if the file is not provided defaults are used.
+Below is an example config file, not every setting needs to be provided, defaults will be picked if values or sections are omitted. 
+
+Also if the file is not provided, the defaults are used
+
 
 ```yaml
 type: julia         # Either 'mandelbrot' or 'julia', default: mandelbrot
@@ -29,7 +34,7 @@ fullScreen: false   # Run fullscreen, default: false
 width: 3.0          # Width in the complex plane (real part), default: 3.0
 height: 2.0         # Height in the complex plane (imaginary part), default: 2.0
                     # NOTE. The ratio of width:height combined with imageWidth defines the imageHeight
-                    #       imageHeight = imageWidth * (height / width)
+                    #       i.e.  imageHeight = imageWidth * (height / width)
 zoom: 1.5           # Starting zoom factor, default: 1.0
 
 center:             # Starting location in complex plane, default: [0.0,-0.6]
@@ -45,10 +50,8 @@ juliaC:             # Used when type=julia, complex C value used, default: [0.35
 colors:              
   - pos: 0.0
     color: "#130b5c"
-  - pos: 0.2
-    color: "#3ec71c"
-  - pos: 0.7
-    color: "#db4918"         
+  - pos: 0.5
+    color: "#3ec71c"         
   - pos: 1.0
     color: "#cf0c84"      
 
@@ -61,31 +64,30 @@ innerColor: "#570336"   # Color used to draw inside the fractal set, default = #
 ---
 
 # Building Yourself
-Tested with Go 1.12
+This project has been built and tested with Go 1.12
 
 ## Linux 
 
-Install prereq libs
+Install pre-req system libs
 ```
 sudo apt install libgl1-mesa-dev xorg-dev
 ```
 
-Run directly
+Run directly (from project root)
 ```
-cd cmd/fract
-go run .
+go run github.com/benc-uk/gofract/cmd/fract
 ```
 
-Or build exe
+Or build into an executable  (from project root)
 ```
-cd cmd/fract
-go build
+go build github.com/benc-uk/gofract/cmd/fract
 ```
 
 ## Windows
-- Have Go installed / on your path
-- Have Git installed / on your path
-- Install mingw-w64 http://win-builds.org/doku.php/download_and_installation_from_windows and put bin directory on your path
+- Have Go installed & on your path
+- Have Git installed & on your path
+- Install mingw-w64 http://win-builds.org/doku.php/download_and_installation_from_windows  
+  - After install put the bin directory on your path
 - Build or run as with Linux above
 
 ---

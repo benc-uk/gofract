@@ -11,7 +11,7 @@ type gradientTableEntry struct {
 
 type gradientTable struct {
 	table []gradientTableEntry
-	mode int
+	mode  int
 }
 
 // Parses hex strings into colors
@@ -44,9 +44,12 @@ func (gt *gradientTable) getInterpolatedColorFor(t float64) colorful.Color {
 			// We are in between c1 and c2. Go blend them!
 			t := (t - c1.Pos) / (c2.Pos - c1.Pos)
 			switch gt.mode {
-				case 0: return c1.Col.BlendRgb(c2.Col, t).Clamped()
-				case 1: return c1.Col.BlendHsv(c2.Col, t).Clamped()
-				case 2: return c1.Col.BlendHcl(c2.Col, t).Clamped()
+			case 0:
+				return c1.Col.BlendRgb(c2.Col, t).Clamped()
+			case 1:
+				return c1.Col.BlendHsv(c2.Col, t).Clamped()
+			case 2:
+				return c1.Col.BlendHcl(c2.Col, t).Clamped()
 			}
 		}
 	}
