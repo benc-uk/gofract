@@ -1,26 +1,29 @@
-type: julia
-maxIter: 200
-imageWidth: 800
+#type: julia
+maxIter: 80
+imageWidth: 1600
 fullScreen: false
 
 center:
-  r: 0.0
+  r: -0.6
   i: 0.0
-# width: 4.0
-# height: 3.0
+width: 3.0
+height: 2.0
 
 juliaC:
   r: -0.54
   i: 0.54
 
-colors:
-  - color: "#130b5c"
-    pos: 0.0
-  - color: "#3ec71c"
-    pos: 0.2
-  - color: "#db4918"
-    pos: 0.7
-  - color: "#cf0c84"
-    pos: 1.0
+# colorRepeats: 2.0
+# colors:
+#   - color: "#000762"
+#     pos: 0.0
+#   - color: "#206aba"
+#     pos: 0.25
+#   - color: "#ffffff"
+#     pos: 0.4
+#   - color: "#ffaa00"
+#     pos: 0.7
+#   - color: "#000762"
+#     pos: 1.0
 
-innerColor: "#f0cc05"
+innerColor: "#000000"

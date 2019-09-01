@@ -1,21 +1,21 @@
-package main
+package colors
 
 import "github.com/lucasb-eyer/go-colorful"
 
-const maxColorModes = 3
+const MaxColorModes = 3
 
 type gradientTableEntry struct {
 	Col colorful.Color
 	Pos float64
 }
 
-type gradientTable struct {
+type GradientTable struct {
 	table []gradientTableEntry
-	mode  int
+	Mode  int
 }
 
 // Parses hex strings into colors
-func parseHex(s string) colorful.Color {
+func ParseHex(s string) colorful.Color {
 	c, err := colorful.Hex(s)
 	if err != nil {
 		panic("parseHex: " + err.Error())
@@ -23,27 +23,29 @@ func parseHex(s string) colorful.Color {
 	return c
 }
 
-func (gt *gradientTable) addToTable(colorString string, pos float64) {
-	gt.table = append(gt.table, gradientTableEntry{parseHex(colorString), pos})
+func (gt *GradientTable) AddToTable(colorString string, pos float64) {
+	gt.table = append(gt.table, gradientTableEntry{ParseHex(colorString), pos})
 }
 
-func (gt *gradientTable) randomise() {
+func (gt *GradientTable) Randomise() {
+	startEnd := colorful.FastHappyColor()
 	gt.table = nil
-	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.0})
-	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.333})
-	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.666})
-	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 1.0})
+	gt.table = append(gt.table, gradientTableEntry{startEnd, 0.00})
+	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.25})
+	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.50})
+	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.75})
+	gt.table = append(gt.table, gradientTableEntry{startEnd, 1.00})
 }
 
 // Get a blended color
-func (gt *gradientTable) getInterpolatedColorFor(t float64) colorful.Color {
+func (gt *GradientTable) GetInterpolatedColorFor(t float64) colorful.Color {
 	for i := 0; i < len(gt.table)-1; i++ {
 		c1 := gt.table[i]
 		c2 := gt.table[i+1]
 		if c1.Pos <= t && t <= c2.Pos {
 			// We are in between c1 and c2. Go blend them!
 			t := (t - c1.Pos) / (c2.Pos - c1.Pos)
-			switch gt.mode {
+			switch gt.Mode {
 			case 0:
 				return c1.Col.BlendRgb(c2.Col, t).Clamped()
 			case 1:

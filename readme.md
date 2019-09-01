@@ -49,12 +49,15 @@ juliaC:             # Used when type=julia, complex C value used, default: [0.35
 # Minimum of two colors, colors are blended to make a smooth gradient between 0.0 and 1.0
 colors:              
   - pos: 0.0
-    color: "#130b5c"
-  - pos: 0.5
-    color: "#3ec71c"         
+    color: "#1aeded"
+  - pos: 0.33
+    color: "#1a33ed"     
+  - pos: 0.66
+    color: "#ff0000"
   - pos: 1.0
-    color: "#cf0c84"      
+    color: "#1aeded"      
 
+colorRepeats: 2         # Control if colors "loop" through the table, default = 2
 innerColor: "#570336"   # Color used to draw inside the fractal set, default = #000000
 ```
 

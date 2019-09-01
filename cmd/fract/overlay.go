@@ -69,11 +69,11 @@ func drawWelcomeOverlay(dst *ebiten.Image) {
 func drawDebugOverlay(dst *ebiten.Image) {
 	var debugText = []string{
 		fmt.Sprintf("TPS: %0.2f", ebiten.CurrentTPS()),
-		fmt.Sprintf("magFactor: %0.4f maxIter: %d", f.MagFactor, f.MaxIter),
+		fmt.Sprintf("magFactor: %0.8f maxIter: %.2f", f.MagFactor, f.MaxIter),
 		fmt.Sprintf("center: %0.4f, %0.4f", f.Center.R, f.Center.I),
 		fmt.Sprintf("juliaC: %0.4f, %0.4f", f.JuliaC.R, f.JuliaC.I),
-		fmt.Sprintf("renderTime: %vms", renderTime),
-		fmt.Sprintf("blendMode: %v", gradient.mode),
+		fmt.Sprintf("renderTime: %vms", lastRenderTime),
+		fmt.Sprintf("blendMode: %v", gradient.Mode),
 	}
 	var fontSize = int(float64(f.ImgWidth) / 60.0)
 	var ttf, _ = truetype.Parse(exampleFonts.MPlus1pRegular_ttf)
