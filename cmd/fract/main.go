@@ -14,7 +14,7 @@ import (
 	"github.com/hajimehoshi/ebiten/inpututil"
 )
 
-const appVersion = "0.1.0"
+const appVersion = "0.0.3"
 
 var (
 	mainImage 	*image.RGBA
@@ -94,19 +94,19 @@ func update(screen *ebiten.Image) error {
 	// IsRunningSlowly helps smooth things when it's running slow
 	if !ebiten.IsRunningSlowly() {
 		if ebiten.IsKeyPressed(ebiten.KeyUp) {
-			f.JuliaC.R += 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.R += 0.005 * (f.MagFactor/4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 		if ebiten.IsKeyPressed(ebiten.KeyDown) {
-			f.JuliaC.R -= 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.R -= 0.005 * (f.MagFactor/4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 		if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-			f.JuliaC.I -= 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.I -= 0.005 * (f.MagFactor/4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 		if ebiten.IsKeyPressed(ebiten.KeyRight) {
-			f.JuliaC.I += 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.I += 0.005 * (f.MagFactor/4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 
@@ -152,14 +152,14 @@ func main() {
 		FractType:  	"mandelbrot",
 		Center:     	fractals.ComplexPair{-0.6, 0.0},
 		MagFactor:  	1.0,
-		MaxIter:    	120,
+		MaxIter:    	90,
 		W:         	 	3.0,
 		H:         	 	2.0,
 		ImgWidth: 	  1000,
-		JuliaC:     	fractals.ComplexPair{0.355, 0.355},
+		JuliaSeed:   	fractals.ComplexPair{0.355, 0.355},
 		InnerColor: 	"#000000",
 		FullScreen: 	false,
-		ColorRepeats: 2,
+		ColorRepeats: 2.0,
 	}
 
 	// Handle loading YAML config file
@@ -176,20 +176,15 @@ func main() {
 		fmt.Println("### No config file, starting with defaults")
 	}
 	
-	// fractalYamlDump, _ := yaml.Marshal(f)
-	// fmt.Printf("\n%v\n", string(fractalYamlDump))
-
-	// f.RatioHW = f.H / f.W
-	// f.RatioWH = f.W / f.H
 	imgHeight := int(float64(f.ImgWidth) * float64(f.H / f.W))
 
 	// Color gradient table
 	if len(f.Colors) < 2 {
 		gradient = colors.GradientTable{}
 		gradient.AddToTable("#000762", 0.0)
-		gradient.AddToTable("#206aba", 0.25)
+		gradient.AddToTable("#0B48C3", 0.25)
 		gradient.AddToTable("#ffffff", 0.4)
-		gradient.AddToTable("#ffaa00", 0.7)
+		gradient.AddToTable("#E3A000", 0.7)
 		gradient.AddToTable("#000762", 1.0)
 	} else {
 		gradient = colors.GradientTable{}

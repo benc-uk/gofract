@@ -21,7 +21,7 @@ type Fractal struct {
 	H        			float64     `yaml:"height"`
 	ImgWidth 			int         `yaml:"imageWidth"`
 	Center   			ComplexPair `yaml:"center"`
-	JuliaC    		ComplexPair `yaml:"juliaC"`
+	JuliaSeed 		ComplexPair `yaml:"juliaSeed"`
 	Colors     		[]ColorDef  `yaml:"colors"`
 	ColorRepeats	float64     `yaml:"colorRepeats"`
 	InnerColor 		string      `yaml:"innerColor"`

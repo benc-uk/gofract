@@ -16,7 +16,8 @@ import (
 )
 
 var (
-	escape = 4.0
+	escape = 256.0
+	escape2 = escape * escape
 	log2   = math.Log(2.0)
 )
 
@@ -25,9 +26,9 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 	imgWidth := img.Bounds().Max.X
 	imgHeight := img.Bounds().Max.Y
 
-	var c complex128
+	var seed complex128
 	if f.FractType == "julia" {
-		c = complex(f.JuliaC.R, f.JuliaC.I)
+		seed = complex(f.JuliaSeed.R, f.JuliaSeed.I)
 	}
 
 	innerColor := colors.ParseHex(f.InnerColor)
@@ -39,7 +40,7 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 	wg.Add(imgHeight)
 
 	start := time.Now()
-	for y := 0; y < imgHeight; y++ {
+	for y := imgHeight-1; y >= 0 ; y-- {
 		// Use an anonymous goroutine to speed things up A LOT
 		go func(y int) {
 			for x := 0; x < imgWidth; x++ {
@@ -55,7 +56,7 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 					case "mandelbrot":
 						iter = mandlebrot(complex(r, i), f)
 					case "julia":
-						iter = julia(complex(r, i), f, c)
+						iter = julia(complex(r, i), f, seed)
 					default:
 						iter = mandlebrot(complex(r, i), f)
 				}
@@ -88,12 +89,14 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 
 func mandlebrot(a complex128, f Fractal) float64 {
 	var z complex128 // zero
-	var iter = 0.0
-
-	mag := real(z)*real(z)+imag(z)*imag(z)
-	for mag < escape && iter <= f.MaxIter {
+	var iter float64
+	var mag float64
+	for iter <= f.MaxIter {
 		z = z*z + a
 		mag = real(z)*real(z)+imag(z)*imag(z)
+		if mag > escape2 {
+			break
+		}
 		iter++
 	}
 
@@ -102,18 +105,20 @@ func mandlebrot(a complex128, f Fractal) float64 {
 	}
 
 	// I have NO IDEA if this is correct but it looks good
- 	smoothIter := float64(iter) + 2.0 - math.Log(math.Log(mag))/log2
+	smoothIter := iter - math.Log(math.Log(mag/math.Log(escape)))/log2
 	return smoothIter
 }
 
-func julia(a complex128, f Fractal, c complex128) float64 {
+func julia(a complex128, f Fractal, seed complex128) float64 {
 	z := a
-	var iter = 0.0
-
-	mag := real(z)*real(z)+imag(z)*imag(z)
-	for mag < escape && iter <= f.MaxIter {
-		z = z*z + c
+	var iter float64
+	var mag float64
+	for iter <= f.MaxIter {
+		z = z*z + seed
 		mag = real(z)*real(z)+imag(z)*imag(z)
+		if mag > escape2 {
+			break
+		}
 		iter++
 	}
 
@@ -122,7 +127,7 @@ func julia(a complex128, f Fractal, c complex128) float64 {
 	}
 
 	// I have NO IDEA if this is correct but it looks good
-	smoothIter := float64(iter) + 2.0 - math.Log(math.Log(mag))/log2
+	smoothIter := iter - math.Log(math.Log(mag/math.Log(escape)))/log2
 	return smoothIter
 }
 

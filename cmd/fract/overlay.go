@@ -71,7 +71,7 @@ func drawDebugOverlay(dst *ebiten.Image) {
 		fmt.Sprintf("TPS: %0.2f", ebiten.CurrentTPS()),
 		fmt.Sprintf("magFactor: %0.8f maxIter: %.2f", f.MagFactor, f.MaxIter),
 		fmt.Sprintf("center: %0.4f, %0.4f", f.Center.R, f.Center.I),
-		fmt.Sprintf("juliaC: %0.4f, %0.4f", f.JuliaC.R, f.JuliaC.I),
+		fmt.Sprintf("juliaseed: %0.4f, %0.4f", f.JuliaSeed.R, f.JuliaSeed.I),
 		fmt.Sprintf("renderTime: %vms", lastRenderTime),
 		fmt.Sprintf("blendMode: %v", gradient.Mode),
 	}
