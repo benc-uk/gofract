@@ -75,6 +75,13 @@ func update(screen *ebiten.Image) error {
 		lastRenderTime = f.Render(mainImage, gradient)
 	}
 
+	// 'L' key -> reload
+	if inpututil.IsKeyJustPressed(ebiten.KeyL) {
+		initFractal()
+		lastRenderTime = f.Render(mainImage, gradient)
+	}
+
+
 	// 'H' key -> show help
 	if inpututil.IsKeyJustPressed(ebiten.KeyH) {
 		showHelp = !showHelp
@@ -147,52 +154,9 @@ func update(screen *ebiten.Image) error {
 func main() {
 	fmt.Println("### Starting GoFract v" + appVersion + "...")
 
-	// Default fractal
-	f = fractals.Fractal{
-		FractType:  	"mandelbrot",
-		Center:     	fractals.ComplexPair{-0.6, 0.0},
-		MagFactor:  	1.0,
-		MaxIter:    	90,
-		W:         	 	3.0,
-		H:         	 	2.0,
-		ImgWidth: 	  1000,
-		JuliaSeed:   	fractals.ComplexPair{0.355, 0.355},
-		InnerColor: 	"#000000",
-		FullScreen: 	false,
-		ColorRepeats: 2.0,
-	}
+	initFractal()
 
-	// Handle loading YAML config file
-	configFile := "fractal.yaml"
-	if len(os.Args) > 1 {
-		configFile = os.Args[1]
-		fmt.Println("### Trying to load:", configFile)
-	}
-	_, err := os.Stat(configFile)
-	if err == nil {
-		fmt.Println("### Loading config file:", configFile)
-		fractals.LoadFractal(&f, configFile)
-	} else {
-		fmt.Println("### No config file, starting with defaults")
-	}
-	
 	imgHeight := int(float64(f.ImgWidth) * float64(f.H / f.W))
-
-	// Color gradient table
-	if len(f.Colors) < 2 {
-		gradient = colors.GradientTable{}
-		gradient.AddToTable("#000762", 0.0)
-		gradient.AddToTable("#0B48C3", 0.25)
-		gradient.AddToTable("#ffffff", 0.4)
-		gradient.AddToTable("#E3A000", 0.7)
-		gradient.AddToTable("#000762", 1.0)
-	} else {
-		gradient = colors.GradientTable{}
-		for _, col := range f.Colors {
-			gradient.AddToTable(col.Color, col.Pos)
-		}
-	}
-
 	mainImage = image.NewRGBA(image.Rect(0, 0, f.ImgWidth, imgHeight))
 	lastRenderTime = f.Render(mainImage, gradient)
 
@@ -210,3 +174,48 @@ func main() {
 	}
 }
 
+func initFractal() {
+	// Default fractal
+	f = fractals.Fractal{
+		FractType:  	"mandelbrot",
+		Center:     	fractals.ComplexPair{-0.6, 0.0},
+		MagFactor:  	1.0,
+		MaxIter:    	90,
+		W:         	 	3.0,
+		H:         	 	2.0,
+		ImgWidth: 	  1000,
+		JuliaSeed:   	fractals.ComplexPair{0.355, 0.355},
+		InnerColor: 	"#000000",
+		FullScreen: 	false,
+		ColorRepeats: 1.0,
+	}
+
+	// Handle loading YAML config file
+	configFile := "fractal.yaml"
+	if len(os.Args) > 1 {
+		configFile = os.Args[1]
+		fmt.Println("### Trying to load:", configFile)
+	}
+	_, err := os.Stat(configFile)
+	if err == nil {
+		fmt.Println("### Loading config file:", configFile)
+		fractals.LoadFractal(&f, configFile)
+	} else {
+		fmt.Println("### No config file, starting with defaults")
+	}
+
+	// Color gradient table
+	if len(f.Colors) < 2 {
+		gradient = colors.GradientTable{}
+		gradient.AddToTable("#000762", 0.0)
+		gradient.AddToTable("#0B48C3", 0.25)
+		gradient.AddToTable("#ffffff", 0.4)
+		gradient.AddToTable("#E3A000", 0.7)
+		gradient.AddToTable("#000762", 1.0)
+	} else {
+		gradient = colors.GradientTable{}
+		for _, col := range f.Colors {
+			gradient.AddToTable(col.Color, col.Pos)
+		}
+	}
+}

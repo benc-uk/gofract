@@ -1,6 +1,8 @@
 package colors
 
-import "github.com/lucasb-eyer/go-colorful"
+import (
+	"github.com/lucasb-eyer/go-colorful"
+)
 
 const MaxColorModes = 3
 
@@ -56,6 +58,12 @@ func (gt *GradientTable) GetInterpolatedColorFor(t float64) colorful.Color {
 		}
 	}
 
+	// This deals with wrapping around past end of last entry
+	first := gt.table[0]
+	last := gt.table[len(gt.table)-1]
+	wrappedT := (t - last.Pos) / (1.0 - last.Pos)
+	return last.Col.BlendRgb(first.Col, wrappedT).Clamped()
+
 	// Nothing found? Means we're at (or past) the last gradient keypoint.
-	return gt.table[len(gt.table)-1].Col
+	// return gt.table[len(gt.table)-1].Col
 }

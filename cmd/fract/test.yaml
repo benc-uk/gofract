@@ -1,0 +1,20 @@
+type: julia
+maxIter: 400
+# imageWidth: 1000
+# zoom: 0.3
+center:
+  r: 0
+  i: 0
+
+colorRepeats: 2.0
+colors:
+  - color: "#000BAA"
+    pos: 0.0
+  - color: "#A813E7"
+    pos: 0.1
+  - color: "#F9CB09"
+    pos: 0.5
+  - color: "#F90707"
+    pos: 1.0
+
+#innerColor: "#F90707"

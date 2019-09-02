@@ -105,7 +105,7 @@ func mandlebrot(a complex128, f Fractal) float64 {
 	}
 
 	// I have NO IDEA if this is correct but it looks good
-	smoothIter := iter - math.Log(math.Log(mag/math.Log(escape)))/log2
+	smoothIter := iter + 2.0 - math.Log(math.Log(mag/math.Log(escape)))/log2
 	return smoothIter
 }
 
@@ -127,7 +127,7 @@ func julia(a complex128, f Fractal, seed complex128) float64 {
 	}
 
 	// I have NO IDEA if this is correct but it looks good
-	smoothIter := iter - math.Log(math.Log(mag/math.Log(escape)))/log2
+	smoothIter := iter + 2.0 - math.Log(math.Log(mag/math.Log(escape)))/log2 
 	return smoothIter
 }
 

@@ -10,7 +10,7 @@ juliaSeed:
   r: 0.2800
   i: -0.0007
 
-colorRepeats: 1.0
+colorRepeats: 2.0
 colors:
   - color: "#E70EEA"
     pos: 0.0

@@ -15,6 +15,7 @@ Features:
 - Press 'd' to display debugging information
 - Press 'r' to randomize the colour pallet
 - Press 'b' to change the colour blend mode (RGB, HCL, HSV)
+- Press 'l' to reload/reset current fractal
 - Use cursor keys to explore when in Julia set mode, by changing the real/imaginary parts of C
 
 ## Configuration

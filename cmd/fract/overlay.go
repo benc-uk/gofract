@@ -20,6 +20,7 @@ var helpText = []string{
 	" - press 's' to save current view as PNG",
 	" - press 'b' to change colour blend mode (RGB, HSV, HCL)",
 	" - press 'z' and 'x' to decrease/increase max iterations",
+	" - press 'l' to reload/reset fractal (will reload YAML from disk)",
 	" - cursor keys to modify real/imaginary values of C when in Julia set mode",
 }
 
