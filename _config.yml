@@ -1,6 +1,5 @@
 title: "GoFract - Fractal Explorer"
 remote_theme: benc-uk/theme-msdark
-#favicon: /vue/public/favicon.png
 plugins:
   - jemoji
 buttons:

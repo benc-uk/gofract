@@ -3,7 +3,13 @@ This project is an experiment in using Go to render Mandlebrot and Julia fractal
 
 The project uses the [Enbiten](https://ebiten.org/) 2D game library and also [go-colorful](https://github.com/lucasb-eyer/go-colorful) a library for manipulating colours in Go.
 
-It should build/run under both Linux/WSL and Windows, notes are provided below.
+It should build & run under both Linux/WSL and Windows, notes are provided below.
+
+![example fractal image 1](./img/shirt-2.png)
+
+![example fractal image 2](./img/classicb-brot.png)
+
+![example fractal image 2](./img/slimepits.png)
 
 Features:
 - Mandlebrot and Julia sets
@@ -16,38 +22,39 @@ Features:
 - Press 'r' to randomize the colour pallet
 - Press 'b' to change the colour blend mode (RGB, HCL, HSV)
 - Press 'l' to reload/reset current fractal
-- Use cursor keys to explore when in Julia set mode, by changing the real/imaginary parts of C
+- Use cursor keys to explore when in Julia set mode, by changing the real/imaginary parts of C. This is fun!
 
 ## Configuration
 Configuration is done via YAML, this is loaded from `fractal.yaml` by default, or the filename can be passed as an argument when starting the app, e.g. `fract foo.yaml` or `go run . foo.yaml`
 
-Below is an example config file, not every setting needs to be provided, defaults will be picked if values or sections are omitted. 
+Below is an example config file, **not every setting needs to be provided**, defaults will be picked if values or sections are omitted. 
 
 Also if the file is not provided, the defaults are used
 
 
 ```yaml
 type: julia         # Either 'mandelbrot' or 'julia', default: mandelbrot
-maxIter: 200        # Max iterations, default: 80
-imageWidth: 800     # Width of the windows and image, default: 1000
+maxIter: 200        # Max iterations, default: 90
+imageWidth: 1000    # Width of the windows and image, default: 1000
 fullScreen: false   # Run fullscreen, default: false
 
 width: 3.0          # Width in the complex plane (real part), default: 3.0
 height: 2.0         # Height in the complex plane (imaginary part), default: 2.0
                     # NOTE. The ratio of width:height combined with imageWidth defines the imageHeight
                     #       i.e.  imageHeight = imageWidth * (height / width)
-zoom: 1.5           # Starting zoom factor, default: 1.0
+zoom: 1.5           # Starting zoom factor, smaller = more zoomed in, default: 1.0
 
 center:             # Starting location in complex plane, default: [0.0,-0.6]
   r: 0.0
   i: -0.6
 
-juliaC:             # Used when type=julia, complex C value used, default: [0.355, 0.355]
+juliaC:             # Used when type=julia, complex C seed value used, default: [0.355, 0.355]
   r: -0.54
   i: 0.54
 
 # Array of colors (in hex format), and positions, pos: 0.0 ~ 1.0 
 # Minimum of two colors, colors are blended to make a smooth gradient between 0.0 and 1.0
+# Tip: The color table wraps, set all positions below 1.0, max about 0.8 or 0.9
 colors:              
   - pos: 0.0
     color: "#1aeded"
@@ -55,7 +62,7 @@ colors:
     color: "#1a33ed"     
   - pos: 0.66
     color: "#ff0000"
-  - pos: 1.0
+  - pos: 0.8
     color: "#1aeded"      
 
 colorRepeats: 2         # Control if colors "loop" through the table, default = 2
@@ -68,7 +75,7 @@ innerColor: "#570336"   # Color used to draw inside the fractal set, default = #
 ---
 
 # Building Yourself
-This project has been built and tested with Go 1.12
+This project has been built and tested with Go 1.12 and 1.13
 
 ## Linux 
 

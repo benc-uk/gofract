@@ -1,0 +1,19 @@
+type: mandelbrot
+maxIter: 280
+imageWidth: 1200
+zoom: 0.002572
+center:
+  r: -1.1585
+  i: -0.2772
+
+colorRepeats: 1.0
+innerColor: "#000314"
+colors:
+  - color: "#000314"
+    pos: 0.0
+  - color: "#000314"
+    pos: 0.2  
+  - color: "#3DA3EB"
+    pos: 0.6  
+  - color: "#EBE5F6"
+    pos: 0.7   

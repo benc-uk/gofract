@@ -69,15 +69,21 @@ func update(screen *ebiten.Image) error {
 		lastRenderTime = f.Render(mainImage, gradient)
 	}
 
-	// 'R' key -> create a random color palette
-	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
+	// 'M key -> create a random color palette
+	if inpututil.IsKeyJustPressed(ebiten.KeyM) {
 		gradient.Randomise()
 		lastRenderTime = f.Render(mainImage, gradient)
 	}
 
-	// 'L' key -> reload
-	if inpututil.IsKeyJustPressed(ebiten.KeyL) {
+	// 'R' key -> reload
+	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
+		oldWidth := f.ImgWidth
 		initFractal()
+		if(f.ImgWidth != oldWidth) {
+			fmt.Println("### WHOA! Changing window size not supported, changes ignored until a restart, sorry!")
+			f.ImgWidth = oldWidth
+		}
+
 		lastRenderTime = f.Render(mainImage, gradient)
 	}
 
@@ -187,7 +193,7 @@ func initFractal() {
 		JuliaSeed:   	fractals.ComplexPair{0.355, 0.355},
 		InnerColor: 	"#000000",
 		FullScreen: 	false,
-		ColorRepeats: 1.0,
+		ColorRepeats: 2.0,
 	}
 
 	// Handle loading YAML config file
@@ -208,10 +214,10 @@ func initFractal() {
 	if len(f.Colors) < 2 {
 		gradient = colors.GradientTable{}
 		gradient.AddToTable("#000762", 0.0)
-		gradient.AddToTable("#0B48C3", 0.25)
+		gradient.AddToTable("#0B48C3", 0.2)
 		gradient.AddToTable("#ffffff", 0.4)
-		gradient.AddToTable("#E3A000", 0.7)
-		gradient.AddToTable("#000762", 1.0)
+		gradient.AddToTable("#E3A000", 0.5)
+		gradient.AddToTable("#000762", 0.9)
 	} else {
 		gradient = colors.GradientTable{}
 		for _, col := range f.Colors {

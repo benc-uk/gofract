@@ -1,0 +1,21 @@
+type: julia
+maxIter: 280
+imageWidth: 1600
+zoom: 0.1768
+center:
+  r: -0.0896
+  i: -0.2475
+
+juliaSeed:
+  r: -0.7851
+  i: 0.1484
+
+colorRepeats: 2.0
+innerColor: "#000000"
+colors:
+  - color: "#CCFF00"
+    pos: 0.0
+  - color: "#0EC724"
+    pos: 0.1
+  - color: "#00322A"
+    pos: 0.5       
