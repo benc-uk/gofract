@@ -1,4 +1,19 @@
 <!DOCTYPE html>
+<style>
+  body { 
+    background-color: #000;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: #bbb;
+    font-size: 120%;
+    height: 100%;
+  }
+  h1 {
+    text-align: center;
+    height: 20px;
+    margin: 0 auto;
+    width: 90%;
+  }
+</style>
 <h1>Loading, please wait...</h1>
 <script src="wasm_exec.js"></script>
 <script>
@@ -11,7 +26,7 @@ if (!WebAssembly.instantiateStreaming) {
 }
 
 const go = new Go();
-WebAssembly.instantiateStreaming(fetch("gofract-m.wasm"), go.importObject).then(result => {
+WebAssembly.instantiateStreaming(fetch("gofract-mandelbrot.wasm"), go.importObject).then(result => {
   go.run(result.instance);
 });
 </script>

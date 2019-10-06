@@ -17,4 +17,4 @@
 **.exe
 cmd/fract/fract
 /fract
-!bin/**
+bin/**
