@@ -1,6 +1,6 @@
 type: julia
 maxIter: 280
-imageWidth: 1600
+imageWidth: 1200
 zoom: 0.1768
 center:
   r: -0.0896
