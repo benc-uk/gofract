@@ -109,7 +109,7 @@ Getting X11 windowing system and GUI working with WSL is "interesting"...
 
 In WSL install xfce4, there might be other ways to set up X11 and associated libraries, but this is a lightweight windowing manager which meets most needs
 ```
-sudo apt install xfce4 xfce4-terminal
+sudo apt install xfce4 xfce4-terminal xorg-dev libgl1-mesa-dev
 ```
 
 In Windows download and install [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
