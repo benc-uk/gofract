@@ -104,8 +104,8 @@ go build github.com/benc-uk/gofract/cmd/fract
 ---
 
 # Appendix - X11 on WSL
-Getting X11 windowing system and GUI working with WSL is "interesting"...
-In WSL install the following packages
+Getting X11 windowing system and GUI working with WSL is "interesting"...  
+In WSL install the following packages:
 ```
 sudo apt install xorg-dev libgl1-mesa-dev
 ```
