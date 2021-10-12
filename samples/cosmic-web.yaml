@@ -1,6 +1,6 @@
 type: julia
 maxIter: 230
-imageWidth: 1200
+imageWidth: 2200
 zoom: 0.1496
 center:
   r: -0.3546
@@ -16,8 +16,8 @@ colors:
   - color: "#000314"
     pos: 0.0
   - color: "#000314"
-    pos: 0.2  
+    pos: 0.2
   - color: "#9571D0"
-    pos: 0.6  
+    pos: 0.6
   - color: "#EBE5F6"
-    pos: 0.9   
+    pos: 0.9
