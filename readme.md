@@ -104,12 +104,10 @@ go build github.com/benc-uk/gofract/cmd/fract
 ---
 
 # Appendix - X11 on WSL
-
-Getting X11 windowing system and GUI working with WSL is "interesting"...
-
-In WSL install xfce4, there might be other ways to set up X11 and associated libraries, but this is a lightweight windowing manager which meets most needs
+Getting X11 windowing system and GUI working with WSL is "interesting"...  
+In WSL install the following packages:
 ```
-sudo apt install xfce4 xfce4-terminal
+sudo apt install xorg-dev libgl1-mesa-dev
 ```
 
 In Windows download and install [VcXsrv](https://sourceforge.net/projects/vcxsrv/)
