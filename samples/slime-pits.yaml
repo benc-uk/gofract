@@ -1,6 +1,6 @@
 type: julia
 maxIter: 280
-imageWidth: 1200
+imageWidth: 2560
 zoom: 0.1768
 center:
   r: -0.0896
@@ -10,7 +10,7 @@ juliaSeed:
   r: -0.7851
   i: 0.1484
 
-colorRepeats: 2.0
+colorRepeats: 4
 innerColor: "#000000"
 colors:
   - color: "#CCFF00"
@@ -18,4 +18,4 @@ colors:
   - color: "#0EC724"
     pos: 0.1
   - color: "#00322A"
-    pos: 0.5       
+    pos: 0.5

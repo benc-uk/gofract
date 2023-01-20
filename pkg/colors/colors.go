@@ -17,22 +17,31 @@ type GradientTable struct {
 }
 
 // Parses hex strings into colors
-func ParseHex(s string) colorful.Color {
+func ParseHex(s string) (*colorful.Color, error) {
 	c, err := colorful.Hex(s)
 	if err != nil {
-		panic("parseHex: " + err.Error())
+		return nil, err
 	}
-	return c
+	return &c, nil
 }
 
 func (gt *GradientTable) AddToTable(colorString string, pos float64) {
-	gt.table = append(gt.table, gradientTableEntry{ParseHex(colorString), pos})
+	hex, err := ParseHex(colorString)
+	if err != nil {
+		return
+	}
+	gt.table = append(gt.table, gradientTableEntry{*hex, pos})
+}
+
+func (gt *GradientTable) GetTable() []gradientTableEntry {
+	return gt.table
 }
 
 func (gt *GradientTable) Randomise() {
-	startEnd := colorful.FastHappyColor()
+	startEnd := colorful.HappyColor()
 	gt.table = nil
 	gt.table = append(gt.table, gradientTableEntry{startEnd, 0.00})
+	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.1})
 	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.25})
 	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.50})
 	gt.table = append(gt.table, gradientTableEntry{colorful.FastHappyColor(), 0.75})

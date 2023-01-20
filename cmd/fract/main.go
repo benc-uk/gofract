@@ -7,8 +7,8 @@ import (
 	"os"
 	"time"
 
-	"github.com/benc-uk/gofract/pkg/fractals"
 	"github.com/benc-uk/gofract/pkg/colors"
+	"github.com/benc-uk/gofract/pkg/fractals"
 
 	"github.com/hajimehoshi/ebiten"
 	"github.com/hajimehoshi/ebiten/inpututil"
@@ -17,12 +17,12 @@ import (
 const appVersion = "0.0.3"
 
 var (
-	mainImage 	*image.RGBA
-	gradient    colors.GradientTable
-	showDebug 	bool
-	showHelp  	bool
+	mainImage      *image.RGBA
+	gradient       colors.GradientTable
+	showDebug      bool
+	showHelp       bool
 	lastRenderTime float64
-	
+
 	f fractals.Fractal // Global fractal super object
 )
 
@@ -79,14 +79,13 @@ func update(screen *ebiten.Image) error {
 	if inpututil.IsKeyJustPressed(ebiten.KeyR) {
 		oldWidth := f.ImgWidth
 		initFractal()
-		if(f.ImgWidth != oldWidth) {
+		if f.ImgWidth != oldWidth {
 			fmt.Println("### WHOA! Changing window size not supported, changes ignored until a restart, sorry!")
 			f.ImgWidth = oldWidth
 		}
 
 		lastRenderTime = f.Render(mainImage, gradient)
 	}
-
 
 	// 'H' key -> show help
 	if inpututil.IsKeyJustPressed(ebiten.KeyH) {
@@ -107,19 +106,19 @@ func update(screen *ebiten.Image) error {
 	// IsRunningSlowly helps smooth things when it's running slow
 	if !ebiten.IsRunningSlowly() {
 		if ebiten.IsKeyPressed(ebiten.KeyUp) {
-			f.JuliaSeed.R += 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.R += 0.005 * (f.MagFactor / 4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 		if ebiten.IsKeyPressed(ebiten.KeyDown) {
-			f.JuliaSeed.R -= 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.R -= 0.005 * (f.MagFactor / 4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 		if ebiten.IsKeyPressed(ebiten.KeyLeft) {
-			f.JuliaSeed.I -= 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.I -= 0.005 * (f.MagFactor / 4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 		if ebiten.IsKeyPressed(ebiten.KeyRight) {
-			f.JuliaSeed.I += 0.005 * (f.MagFactor/4.0)
+			f.JuliaSeed.I += 0.005 * (f.MagFactor / 4.0)
 			lastRenderTime = f.Render(mainImage, gradient)
 		}
 
@@ -154,15 +153,13 @@ func update(screen *ebiten.Image) error {
 	return nil
 }
 
-//
 // Main entry point
-//
 func main() {
 	fmt.Println("### Starting GoFract v" + appVersion + "...")
 
 	initFractal()
 
-	imgHeight := int(float64(f.ImgWidth) * float64(f.H / f.W))
+	imgHeight := int(float64(f.ImgWidth) * float64(f.H/f.W))
 	mainImage = image.NewRGBA(image.Rect(0, 0, f.ImgWidth, imgHeight))
 	lastRenderTime = f.Render(mainImage, gradient)
 
@@ -183,17 +180,17 @@ func main() {
 func initFractal() {
 	// Default fractal
 	f = fractals.Fractal{
-		FractType:  	"mandelbrot",
-		Center:     	fractals.ComplexPair{-0.6, 0.0},
-		MagFactor:  	1.0,
-		MaxIter:    	90,
-		W:         	 	3.0,
-		H:         	 	2.0,
-		ImgWidth: 	  1000,
-		JuliaSeed:   	fractals.ComplexPair{0.355, 0.355},
-		InnerColor: 	"#000000",
-		FullScreen: 	false,
-		ColorRepeats: 2.0,
+		FractType:    "mandelbrot",
+		Center:       fractals.ComplexPair{-0.6, 0.0},
+		MagFactor:    1.0,
+		MaxIter:      90,
+		W:            3.0,
+		H:            2.0,
+		ImgWidth:     1000,
+		JuliaSeed:    fractals.ComplexPair{0.355, 0.355},
+		InnerColor:   "#000000",
+		FullScreen:   false,
+		ColorRepeats: 2,
 	}
 
 	// Handle loading YAML config file

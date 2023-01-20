@@ -5,6 +5,7 @@ import (
 	"image"
 	"io/ioutil"
 	"math"
+
 	//"math/cmplx"
 	"os"
 	"sync"
@@ -16,12 +17,12 @@ import (
 )
 
 var (
-	escape = 256.0
+	escape  = 256.0
 	escape2 = escape * escape
-	log2   = math.Log(2.0)
+	log2    = math.Log(2.0)
 )
 
-// Render the fractal into the given image using the given palette 
+// Render the fractal into the given image using the given palette
 func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 	imgWidth := img.Bounds().Max.X
 	imgHeight := img.Bounds().Max.Y
@@ -31,7 +32,7 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 		seed = complex(f.JuliaSeed.R, f.JuliaSeed.I)
 	}
 
-	innerColor := colors.ParseHex(f.InnerColor)
+	innerColor, _ := colors.ParseHex(f.InnerColor)
 	innerR := uint8(innerColor.R * 255)
 	innerG := uint8(innerColor.G * 255)
 	innerB := uint8(innerColor.B * 255)
@@ -40,7 +41,7 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 	wg.Add(imgHeight)
 
 	start := time.Now()
-	for y := imgHeight-1; y >= 0 ; y-- {
+	for y := imgHeight - 1; y >= 0; y-- {
 		// Use an anonymous goroutine to speed things up A LOT
 		go func(y int) {
 			for x := 0; x < imgWidth; x++ {
@@ -53,12 +54,12 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 
 				var iter float64
 				switch f.FractType {
-					case "mandelbrot":
-						iter = mandlebrot(complex(r, i), f)
-					case "julia":
-						iter = julia(complex(r, i), f, seed)
-					default:
-						iter = mandlebrot(complex(r, i), f)
+				case "mandelbrot":
+					iter = mandlebrot(complex(r, i), f)
+				case "julia":
+					iter = julia(complex(r, i), f, seed)
+				default:
+					iter = mandlebrot(complex(r, i), f)
 				}
 
 				// Default to inner colour if inside the set
@@ -67,7 +68,7 @@ func (f Fractal) Render(img *image.RGBA, palette colors.GradientTable) float64 {
 				// Color the pixel if it escaped, based on iteration count
 				if iter < f.MaxIter {
 					// This maths lets us have repeating colors
-					repeatSize := f.MaxIter / f.ColorRepeats
+					repeatSize := f.MaxIter / float64(f.ColorRepeats)
 					scaledIter := math.Mod(iter, repeatSize) / repeatSize
 					pixelR, pixelG, pixelB = palette.GetInterpolatedColorFor(scaledIter).RGB255()
 				}
@@ -93,7 +94,7 @@ func mandlebrot(a complex128, f Fractal) float64 {
 	var mag float64
 	for iter <= f.MaxIter {
 		z = z*z + a
-		mag = real(z)*real(z)+imag(z)*imag(z)
+		mag = real(z)*real(z) + imag(z)*imag(z)
 		if mag > escape2 {
 			break
 		}
@@ -115,7 +116,7 @@ func julia(a complex128, f Fractal, seed complex128) float64 {
 	var mag float64
 	for iter <= f.MaxIter {
 		z = z*z + seed
-		mag = real(z)*real(z)+imag(z)*imag(z)
+		mag = real(z)*real(z) + imag(z)*imag(z)
 		if mag > escape2 {
 			break
 		}
@@ -127,7 +128,7 @@ func julia(a complex128, f Fractal, seed complex128) float64 {
 	}
 
 	// I have NO IDEA if this is correct but it looks good
-	smoothIter := iter + 2.0 - math.Log(math.Log(mag/math.Log(escape)))/log2 
+	smoothIter := iter + 2.0 - math.Log(math.Log(mag/math.Log(escape)))/log2
 	return smoothIter
 }
 

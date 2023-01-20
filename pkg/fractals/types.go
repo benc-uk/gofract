@@ -14,16 +14,16 @@ type ColorDef struct {
 
 // Fractal is our main object
 type Fractal struct {
-	FractType 		string      `yaml:"type"`
-	MagFactor 		float64     `yaml:"zoom"`
-	MaxIter   		float64     `yaml:"maxIter"`
-	W        			float64     `yaml:"width"`
-	H        			float64     `yaml:"height"`
-	ImgWidth 			int         `yaml:"imageWidth"`
-	Center   			ComplexPair `yaml:"center"`
-	JuliaSeed 		ComplexPair `yaml:"juliaSeed"`
-	Colors     		[]ColorDef  `yaml:"colors"`
-	ColorRepeats	float64     `yaml:"colorRepeats"`
-	InnerColor 		string      `yaml:"innerColor"`
-	FullScreen 		bool        `yaml:"fullScreen"`
+	FractType    string      `yaml:"type"`
+	MagFactor    float64     `yaml:"zoom"`
+	MaxIter      float64     `yaml:"maxIter"`
+	W            float64     `yaml:"width"`
+	H            float64     `yaml:"height"`
+	ImgWidth     int         `yaml:"imageWidth"`
+	Center       ComplexPair `yaml:"center"`
+	JuliaSeed    ComplexPair `yaml:"juliaSeed"`
+	Colors       []ColorDef  `yaml:"colors"`
+	ColorRepeats int         `yaml:"colorRepeats"`
+	InnerColor   string      `yaml:"innerColor"`
+	FullScreen   bool        `yaml:"fullScreen"`
 }
